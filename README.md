@@ -9,6 +9,8 @@ Algorithm battle game for online judge. (version 0.0.1)
 
 각기 다른 언어를 하나로 통합하는 스킬 향상을 도모할수 있죠. (파워억지)
 
+*본프로젝트는 보안에 엄청나게 취약합니다 주의바랍니다*
+
 ## How to install
 
 Ubuntu 12.04 기준
