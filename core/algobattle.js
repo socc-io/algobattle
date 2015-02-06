@@ -11,7 +11,7 @@ var main_src = fs.readFileSync(MAIN_SRC_FILE,"utf-8");
 var a_src = fs.readFileSync("./source/"+Aplayer+".c","utf-8");
 var b_src = fs.readFileSync("./source/"+Bplayer+".c","utf-8");
 
-var name_template_pre = 'if (name != NULL) strcpy(name, "';
+var name_template_pre = 'if (name != NULL) sprintf(name, "';
 var name_template_post = '");\n';
 
 main_list = main_src.split("//*************");
