@@ -1,11 +1,21 @@
 # algobattle
-Algorithm battle game
+Algorithm battle game for online judge.
 
-## 접속방법
+## 설치하는 방법
 
-http://beaver.hp100.net/algobattle 
-에서 확인할 수 있다. (아직 자동 업데이트기능 없음, git으로 pull 해야함!)
-직접 접속해서 수정하기바람.
+Ubuntu 12.04 기준
+
+```
+$sudo apt-get install apache2 php5 nodejs 
+
+$git clone https://github.com/becxer/algobattle.git
+
+$cd algobattle
+
+$sudo cp -r ./* /var/www
+
+```
+
 
 
 ## 동작방식 설명
