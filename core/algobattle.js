@@ -22,7 +22,7 @@ main_list[1] += a_src_list[1];
 main_list[1] += b_src_list[1];
 
 main_list[3] += name_template_pre +Aplayer+ name_template_post + a_src_list[3];
-main_list[5] += name_template_pre +Aplayer+ name_template_post + b_src_list[3];
+main_list[5] += name_template_pre +Bplayer+ name_template_post + b_src_list[3];
 
 var output_src = "";
 for (i in main_list){
