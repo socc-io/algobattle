@@ -9,7 +9,7 @@ int main(int argc, char* argv[]){
 	if(argc < 2){
 		printf("no input source \n");
 	}
-	sprintf(path,"../generate/%s",argv[1]);
+	sprintf(path,"./core/generate/%s",argv[1]);
 	sprintf(cmd_compile,"gcc -o ./result/%s.out %s",argv[1],path);
 	system(cmd_compile);
 	
