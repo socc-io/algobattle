@@ -18,7 +18,8 @@ int logic(int turn, int other_last_hand){
     //*************
     //fill here
     //don't remove comments
-    song --;
+    song --; 
+    return song %3; 
     //*************
     return your_hand;
 }
@@ -29,6 +30,6 @@ int main(void){
     int n = 100;
     while(n-->0){
         logic(100-n, n%3);
-    }
+    }   
     return 0;
 }
