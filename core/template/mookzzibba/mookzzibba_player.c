@@ -12,25 +12,21 @@
 //*************
 
 int logic(int turn, int other_last_hand){
-    int your_hand = -99;
-	printf("turn : %d , other_last_hand : %d\n", turn, other_last_hand);	
-    //*************
-	//fill here
-	//don't remove comments
+//*************
+//fill here and don't remove comments
+int your_hand = MOOK;
 
-
-
-    //*************
-    return your_hand;
+//*************
+return your_hand;
 }
 
 
 //this is simulator main for your testing
 int main(void){
-	int n = 100;
-	while(n-->0){
-		logic(100-n, n%3);
-	}
-	return 0;
+int n = 100;
+while(n-->0){
+logic(100-n, n%3);
+}
+return 0;
 }
 
