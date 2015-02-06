@@ -32,4 +32,13 @@ for (i in main_list){
 fs.writeFileSync(OUTPUT_SRC_FILE,output_src);
 
 var spawn = require('child_process').spawn;
-//var child = spawn('battle.out', [OUTPUT_SRC_FILE]);
+var child = spawn('./core/starter/c_starter', [Aplayer+"_"+Bplayer+".c"]);
+
+child.stdout.on('data',function(data){
+	console.log('stdout: ' +data);
+});
+
+
+child.stderr.on('data',function(data){
+	console.log('stderr: ' +data);
+});
