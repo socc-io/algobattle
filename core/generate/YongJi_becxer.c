@@ -20,14 +20,14 @@
 
 //use here for global variable
 //don't remove comments
-
-int song = 85858;
+int JY = 0;
+int you[1000] = {0,};
 
 
 //use here for global variable
 //don't remove comments
+int hist_arr[3];
 int count = 0;
-
 
 typedef struct _state {
 	char name[100];
@@ -38,26 +38,52 @@ typedef struct _state {
 int A_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with A's logic
-	if (name != NULL) sprintf(name, "aaa");
+	if (name != NULL) sprintf(name, "YongJi");
 
-    //fill here
-    //don't remove comments
-    song --; 
-    return song %3; 
-    
+//fill here and don't remove comments
+int your_hand = MOOK;
+
+if(JY == 0) {
+  you[JY] = 2;
+  JY++;
+  return BBA;
+}
+you[JY] = other_last_hand;
+//if(you[JY-1] you[JY]
+JY++;
+return other_last_hand;
+
+
+
+
+
 	return 0;
 }
 
 int B_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with B's logic
-	if (name != NULL) sprintf(name, "bbb");
+	if (name != NULL) sprintf(name, "becxer");
 
-    //fill here
-    //don't remove comments
-    count ++; 
-    return count%2;
-    
+//fill here and don't remove comments
+int max = 0;
+int max_avg = 0;
+int i = 0;
+if(count++ == 0){ 
+    for(i = 0 ; i< 3; i++){
+        hist_arr[i] = 0;
+    }   
+}
+hist_arr[other_last_hand]++;
+
+for(i = 0 ; i < 3 ; i++){
+    if(max_avg < hist_arr[i]){
+        max_avg = hist_arr[i];
+        max = i;
+    }   
+}
+return (max + (count%2))%3;
+
 	return 0;	
 }
 

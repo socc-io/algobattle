@@ -20,13 +20,21 @@
 
 //use here for global variable
 //don't remove comments
-
-int song = 85858;
+int flag1;
+int flag2;
+int flag3;
+int n1;
+int n2;
+int n3;
+int win1;
+int win2;
+int win3;
 
 
 //use here for global variable
 //don't remove comments
-int count = 0;
+int JY = 0;
+int you[1000] = {0,};
 
 
 typedef struct _state {
@@ -38,26 +46,92 @@ typedef struct _state {
 int A_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with A's logic
-	if (name != NULL) sprintf(name, "aaa");
+	if (name != NULL) sprintf(name, "seoji");
 
-    //fill here
-    //don't remove comments
-    song --; 
-    return song %3; 
-    
+//fill here and don't remove comments
+int your_hand = MOOK;
+if(turn ==1){
+	flag1 = other_last_hand;
+	if(flag1 == MOOK) win1 = ZZI;
+	else if(flag1 == ZZI) win1 = MOOK;
+	else win1 = BBA;
+}
+else if(turn ==2){
+	flag2 = other_last_hand;
+	if(flag2 == MOOK) win2 = ZZI;
+	else if(flag2 == ZZI) win2 = MOOK;
+	else win2 = BBA;
+}
+else if(turn ==3){
+	flag3 = other_last_hand;
+	if(flag3 == MOOK) win3 = ZZI;
+	else if(flag3 == ZZI) win3 = MOOK;
+	else win3 = BBA;
+}
+
+if(turn % 3 == 1){
+	n1 ++; 
+	n2 = 0;
+	n3 = 0;
+}
+else if(turn % 3 == 2){
+	n1 = 0; 
+	n2 ++;
+	n3 = 0;
+}
+else if(turn % 3 == 0){
+	n1 = 0; 
+	n2 = 0;
+	n3 ++;
+}
+
+
+if(turn % 3 == 1 && n1 == 1 && n2 == 0){
+   your_hand = win1;
+}
+else if(turn % 3 == 1 && n1 != 1 && n2 == 0){
+   your_hand = flag1;
+}
+else if(turn % 3 == 2 && n2 == 1 && n3 == 0){
+   your_hand = win2;
+}
+else if(turn % 3 == 2 && n2 != 1 && n3 == 0){
+   your_hand = flag2;
+}
+else if(turn % 3 == 3 && n3 == 1 && n2 == 0){
+   your_hand = win3;
+}
+else if(turn % 3 == 3 && n3 != 1 && n2 == 0){
+   your_hand = flag3;
+}
+
+
+
 	return 0;
 }
 
 int B_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with B's logic
-	if (name != NULL) sprintf(name, "bbb");
+	if (name != NULL) sprintf(name, "YongJi");
 
-    //fill here
-    //don't remove comments
-    count ++; 
-    return count%2;
-    
+//fill here and don't remove comments
+int your_hand = MOOK;
+
+if(JY == 0) {
+  you[JY] = 2;
+  JY++;
+  return BBA;
+}
+you[JY] = other_last_hand;
+//if(you[JY-1] you[JY]
+JY++;
+return other_last_hand;
+
+
+
+
+
 	return 0;	
 }
 

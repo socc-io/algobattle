@@ -20,14 +20,16 @@
 
 //use here for global variable
 //don't remove comments
-
-int song = 85858;
+int glmine;
+int glpreturn = -1;
+int glstatus = 1;
+int glwin;    //0 = lose 1 = win 2 = draw
 
 
 //use here for global variable
 //don't remove comments
-int count = 0;
-
+int start = MOOK;
+int count11=1;
 
 typedef struct _state {
 	char name[100];
@@ -38,26 +40,83 @@ typedef struct _state {
 int A_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with A's logic
-	if (name != NULL) sprintf(name, "aaa");
+	if (name != NULL) sprintf(name, "hands");
 
-    //fill here
-    //don't remove comments
-    song --; 
-    return song %3; 
-    
+//fill here and don't remove comments
+int my_hand ;
+if (glstatus) {
+    int result = glmine - other_last_hand;
+    // win
+    if (result == -1 || result == 2) {
+        glwin = 1;
+        glstatus = 0;
+        my_hand = other_last_hand;
+    }
+    // lose
+    else if (result == 1 || result == -2) {
+        glwin = 0;
+        glstatus = 0;
+       my_hand = other_last_hand;
+    }
+    // draw
+    else {
+        my_hand = (glmine+1) % 3;
+    }
+    if (glpreturn < turn) {
+        glpreturn++;
+        my_hand = ZZI;
+    }
+} else {
+    if (glwin == 1) {
+        my_hand = other_last_hand;
+    } else if (glwin == 0) {
+        my_hand = other_last_hand;
+    }
+}
+
+
 	return 0;
 }
 
 int B_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with B's logic
-	if (name != NULL) sprintf(name, "bbb");
+	if (name != NULL) sprintf(name, "JunseokShinye");
 
-    //fill here
-    //don't remove comments
-    count ++; 
-    return count%2;
-    
+//fill here and don't remove comments
+int your_hand;
+
+if(count11==turn){
+ count11++;
+if((turn%=3)==0){start=MOOK;}
+else if((turn%=3)==1){start=ZZI;}
+else{start==BBA;}
+your_hand=start;
+
+}
+else{
+    if(other_last_hand-start ==1||other_last_hand-start==-2){
+        start = other_last_hand;
+     }
+    else if(other_last_hand==start){
+        start--;
+        if(start==-1){start=2;}
+     }
+    else{
+        if(start==0){
+           start = 1;
+         } 
+         else if(start==1){
+           start = 2;
+         }
+         else{
+            start = 0;
+          }
+
+    }  
+     your_hand=start;
+}
+
 	return 0;	
 }
 

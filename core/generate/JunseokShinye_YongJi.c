@@ -20,13 +20,13 @@
 
 //use here for global variable
 //don't remove comments
-
-int song = 85858;
-
+int start = MOOK;
+int count11=1;
 
 //use here for global variable
 //don't remove comments
-int count = 0;
+int JY = 0;
+int you[1000] = {0,};
 
 
 typedef struct _state {
@@ -38,26 +38,67 @@ typedef struct _state {
 int A_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with A's logic
-	if (name != NULL) sprintf(name, "aaa");
+	if (name != NULL) sprintf(name, "JunseokShinye");
 
-    //fill here
-    //don't remove comments
-    song --; 
-    return song %3; 
-    
+//fill here and don't remove comments
+int your_hand;
+
+if(count11==turn){
+ count11++;
+if((turn%=3)==0){start=MOOK;}
+else if((turn%=3)==1){start=ZZI;}
+else{start==BBA;}
+your_hand=start;
+
+}
+else{
+    if(other_last_hand-start ==1||other_last_hand-start==-2){
+        start = other_last_hand;
+     }
+    else if(other_last_hand==start){
+        start--;
+        if(start==-1){start=2;}
+     }
+    else{
+        if(start==0){
+           start = 1;
+         } 
+         else if(start==1){
+           start = 2;
+         }
+         else{
+            start = 0;
+          }
+
+    }  
+     your_hand=start;
+}
+
 	return 0;
 }
 
 int B_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with B's logic
-	if (name != NULL) sprintf(name, "bbb");
+	if (name != NULL) sprintf(name, "YongJi");
 
-    //fill here
-    //don't remove comments
-    count ++; 
-    return count%2;
-    
+//fill here and don't remove comments
+int your_hand = MOOK;
+
+if(JY == 0) {
+  you[JY] = 2;
+  JY++;
+  return BBA;
+}
+you[JY] = other_last_hand;
+//if(you[JY-1] you[JY]
+JY++;
+return other_last_hand;
+
+
+
+
+
 	return 0;	
 }
 

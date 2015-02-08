@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #define MOOK 0
-#define JJI 1
+#define ZZI 1
 #define BBA 2
 
 //*************

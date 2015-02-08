@@ -21,11 +21,11 @@
 //use here for global variable
 //don't remove comments
 
-int song = 85858;
 
 
 //use here for global variable
 //don't remove comments
+
 int count = 0;
 
 
@@ -38,26 +38,34 @@ typedef struct _state {
 int A_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with A's logic
-	if (name != NULL) sprintf(name, "aaa");
+	if (name != NULL) sprintf(name, "baekseohyeon");
 
-    //fill here
-    //don't remove comments
-    song --; 
-    return song %3; 
-    
+//fill here and don't remove comments
+
+int your_hand = MOOK;
+
+return BBA;
+
+
 	return 0;
 }
 
 int B_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with B's logic
-	if (name != NULL) sprintf(name, "bbb");
+	if (name != NULL) sprintf(name, "sinyae");
 
-    //fill here
-    //don't remove comments
-    count ++; 
-    return count%2;
-    
+//fill here and don't remove comments
+int your_hand = MOOK;
+
+count++;
+if(count %2 ==1)
+ return ZZI;
+else
+ return BBA;
+
+
+
 	return 0;	
 }
 

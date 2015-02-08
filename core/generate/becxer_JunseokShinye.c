@@ -20,14 +20,13 @@
 
 //use here for global variable
 //don't remove comments
-
-int song = 85858;
-
+int hist_arr[3];
+int count = 0;
 
 //use here for global variable
 //don't remove comments
-int count = 0;
-
+int start = MOOK;
+int count11=1;
 
 typedef struct _state {
 	char name[100];
@@ -38,26 +37,69 @@ typedef struct _state {
 int A_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with A's logic
-	if (name != NULL) sprintf(name, "aaa");
+	if (name != NULL) sprintf(name, "becxer");
 
-    //fill here
-    //don't remove comments
-    song --; 
-    return song %3; 
-    
+//fill here and don't remove comments
+int max = 0;
+int max_avg = 0;
+int i = 0;
+if(count++ == 0){ 
+    for(i = 0 ; i< 3; i++){
+        hist_arr[i] = 0;
+    }   
+}
+hist_arr[other_last_hand]++;
+
+for(i = 0 ; i < 3 ; i++){
+    if(max_avg < hist_arr[i]){
+        max_avg = hist_arr[i];
+        max = i;
+    }   
+}
+return (max + (count%2))%3;
+
 	return 0;
 }
 
 int B_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with B's logic
-	if (name != NULL) sprintf(name, "bbb");
+	if (name != NULL) sprintf(name, "JunseokShinye");
 
-    //fill here
-    //don't remove comments
-    count ++; 
-    return count%2;
-    
+//fill here and don't remove comments
+int your_hand;
+
+if(count11==turn){
+ count11++;
+if((turn%=3)==0){start=MOOK;}
+else if((turn%=3)==1){start=ZZI;}
+else{start==BBA;}
+your_hand=start;
+
+}
+else{
+    if(other_last_hand-start ==1||other_last_hand-start==-2){
+        start = other_last_hand;
+     }
+    else if(other_last_hand==start){
+        start--;
+        if(start==-1){start=2;}
+     }
+    else{
+        if(start==0){
+           start = 1;
+         } 
+         else if(start==1){
+           start = 2;
+         }
+         else{
+            start = 0;
+          }
+
+    }  
+     your_hand=start;
+}
+
 	return 0;	
 }
 

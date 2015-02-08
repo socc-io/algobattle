@@ -20,13 +20,15 @@
 
 //use here for global variable
 //don't remove comments
-
-int song = 85858;
-
+int hist_arr[3];
+int count = 0;
 
 //use here for global variable
 //don't remove comments
-int count = 0;
+int glmine;
+int glpreturn = -1;
+int glstatus = 1;
+int glwin;    //0 = lose 1 = win 2 = draw
 
 
 typedef struct _state {
@@ -38,26 +40,68 @@ typedef struct _state {
 int A_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with A's logic
-	if (name != NULL) sprintf(name, "aaa");
+	if (name != NULL) sprintf(name, "bbbbb");
 
-    //fill here
-    //don't remove comments
-    song --; 
-    return song %3; 
-    
+//fill here and don't remove comments
+int max = 0;
+int max_avg = 0;
+int i = 0;
+if(count++ == 0){ 
+    for(i = 0 ; i< 3; i++){
+        hist_arr[i] = 0;
+    }   
+}
+hist_arr[other_last_hand]++;
+
+for(i = 0 ; i < 3 ; i++){
+    if(max_avg < hist_arr[i]){
+        max_avg = hist_arr[i];
+        max = i;
+    }   
+}
+return (max + (count%2)+1)%3;
+
 	return 0;
 }
 
 int B_logic(char name[100], int turn, int other_last_hand){
 	
 	//this area will be fill with B's logic
-	if (name != NULL) sprintf(name, "bbb");
+	if (name != NULL) sprintf(name, "hands");
 
-    //fill here
-    //don't remove comments
-    count ++; 
-    return count%2;
-    
+//fill here and don't remove comments
+int my_hand ;
+if (glstatus) {
+    int result = glmine - other_last_hand;
+    // win
+    if (result == -1 || result == 2) {
+        glwin = 1;
+        glstatus = 0;
+        my_hand = other_last_hand;
+    }
+    // lose
+    else if (result == 1 || result == -2) {
+        glwin = 0;
+        glstatus = 0;
+       my_hand = other_last_hand;
+    }
+    // draw
+    else {
+        my_hand = (glmine+1) % 3;
+    }
+    if (glpreturn < turn) {
+        glpreturn++;
+        my_hand = ZZI;
+    }
+} else {
+    if (glwin == 1) {
+        my_hand = other_last_hand;
+    } else if (glwin == 0) {
+        my_hand = other_last_hand;
+    }
+}
+
+
 	return 0;	
 }
 
