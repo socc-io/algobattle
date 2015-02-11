@@ -2,7 +2,7 @@
 # algobattle
 Algorithm battle game for online judge. (version 0.0.1)
 
-본 프로젝트는 '쏙' 알고리즘 스터디에서 만든 알고리즘 배틀 게임입니다.
+본 프로젝트는 '쏙' 알고리즘 스터디 "algostudy" 에서 만든 알고리즘 배틀 게임입니다.
 
 사용하는 언어는 php(웹서버), html5(웹페이지), c(템플릿 작성,컴파일러), nodejs(코드 제너레이트) 를 쓰고 있습니다.
 
