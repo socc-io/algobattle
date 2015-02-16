@@ -11,8 +11,10 @@ margin: 0;
 }
 
 input ,textarea{
-border: 0;
+border: 1px solid #00FF00;
 outline-style: none;
 resize: none;
+margin: 3px;
+padding: 5px;
 }
 

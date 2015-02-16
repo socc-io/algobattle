@@ -73,7 +73,7 @@
     ?>
 </textarea>
 			<br>
-			<input type="submit" value="submit">
+			<input class="submit" type="submit" value="submit">
 		</form>
 	  </div>
 <?php }?>
@@ -86,7 +86,7 @@ if(isset($_POST['rivalA']) && isset($_POST['rivalB'])){
 	$rivalA=$_POST['rivalA'];
 	$rivalB=$_POST['rivalB'];
 	
-	$res = exec("node ./core/algobattle.js $rivalA $rivalB");
+	//$res = exec("node ./core/algobattle.js $rivalA $rivalB");
 	$filename ="./result/".$rivalA."_".$rivalB.".result";
     $fcode = fopen($filename,"r");
     echo "<pre>".fread($fcode, filesize($filename))."</pre>";
@@ -118,13 +118,10 @@ else{
 	?>
 	<br>
 	<form method="post" action="<?php echo $_POST['PHP_SELF'];?>">
-	  <label for="rivalA">A: </label>
-	  <input type="text" name="rivalA" id="rivalA">
+	  A: <input class="ins" type="text" name="rivalA" id="rivalA"><br>
+	  B: <input class="ins" type="text" name="rivalB" id="rivalB"><br>
 	  <br>
-	  <label for="rivalB">B: </label>
-	  <input type="text" name="rivalB" id="rivalB">
-	  <br><br>
-	  <input type="submit" value="submit">
+	  <input class="submit" type="submit" value="submit">
 	</form>
 </div>
 <?php }?>
