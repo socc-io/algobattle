@@ -16,7 +16,8 @@
 
 //*************
 //this area will be fill with A,B's field variables
-
+int JY = 0;
+int pattern[1000] = { 0, };
 //*************
 typedef struct _state {
 	char name[100];
@@ -26,12 +27,24 @@ typedef struct _state {
 
 int A_logic(char name[100], int turn, int other_last_hand){
 	//*************
-	//this area will be fill with A's logic
+	//fill here and don't remove comments
+	int your_hand = MOOK;
+	if (name != NULL) strcpy(name, "A");
+	if (JY == 0) {
+		JY++;
+		return BBA;
+	}
+	//pattern[JY] = other_last_hand;
+	count++;
+	return other_last_hand;
 	//*************
-	return 0;
-}
+	return your_hand;
+
+
 
 int B_logic(char name[100], int turn, int other_last_hand){
+	if (name != NULL) strcpy(name, "B");
+	return rand() % 3;
 	//*************
 	//this area will be fill with B's logic
 	//*************
@@ -133,7 +146,7 @@ int main(void){
 	strcat(file_name, ".result");
 
 	//making result file
-	result = fopen(file_name,"w");
+	result = fopen(file_name,"a+");
 	if(result == NULL){
 		printf("error opening result file : %s\n",file_name);
 	}
