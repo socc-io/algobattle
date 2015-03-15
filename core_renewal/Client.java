@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Client {
-	String ip = "192.168.0.155";
+	String ip = "localhost";
 	int port = 5000;
 	private Socket socket = null;
 	private ObjectInputStream in = null;

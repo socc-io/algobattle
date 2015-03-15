@@ -5,18 +5,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 abstract class GameFrameWork {
-    public AlgoPacket[] packets = new AlgoPacket[2];
     public Socket[] clients = new Socket[2];
-    public void start(){
-        init();
-        server_start();
+    public ObjectOutputStream[] outs = new ObjectOutputStream[2];
+    public ObjectInputStream[] ins = new ObjectInputStream[2];
 
-        packet_transfer();
+    public void start() {
+        server_start();
+        init();
+
         while (true) {
+            packet_transfer();
             valid();
             play();
             //history();
-            //packet_transfer();
         }
     }
 
@@ -28,11 +29,10 @@ abstract class GameFrameWork {
 
             while (userCount < 2) {
                 clients[userCount] = server.accept();
-                Thread readerThread = new Thread(new ReaderThread(userCount));
-                readerThread.start();
-                userCount++;
+                outs[userCount] = new ObjectOutputStream(clients[userCount].getOutputStream());
+                ins[userCount] = new ObjectInputStream(clients[userCount].getInputStream());
 
-                System.out.println("user" + userCount + " is Connect");
+                System.out.println("user" + userCount++ + " is Connect [IO Stream maked]");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,37 +44,6 @@ abstract class GameFrameWork {
     public abstract void play();
     public abstract void history();
     public abstract void packet_transfer();
-
-    class ReaderThread implements Runnable {
-        int number;
-        Socket client = null;
-        ObjectInputStream in = null;
-
-        ReaderThread(int index) {
-            number = index;
-            client = clients[index];
-            try {
-                this.in = new ObjectInputStream(client.getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    AlgoPacket packet = (AlgoPacket)in.readObject();
-                    packets[number] = packet;
-                    System.out.println(number + " : " + packet.value1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }
 
 class GameFactory {
@@ -91,30 +60,81 @@ class GameFactory {
 
 // java Server RSP
 class RSP extends GameFrameWork {
+    public AlgoPacket[] packets = new AlgoPacket[2];
+    private String[] rspStr = {"ROCK", "SISSORS", "PAPER"};
     private int turn;
-    private ObjectOutputStream[] outs = new ObjectOutputStream[2];
+    
     @Override
     public void init() {
         turn = 0;
-    }
 
-    @Override
-    public synchronized void valid() {
-        while (packets[0] == null && packets[1] == null) {
-            // Packet value range 0 ~ 2
+        for (int i=0; i<ins.length; i++) {
+            final int finalI = i;
+            Thread readThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        while (true) {
+                            packets[finalI] = (AlgoPacket) ins[finalI].readObject();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            readThread.start();
         }
     }
 
     @Override
+    public void packet_transfer() {
+        System.out.print("[TURN : " + turn + "] ");
+        for (int i=0; i<outs.length; i++) {
+            try {
+                outs[i].writeObject(new AlgoPacket());
+                outs[i].flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void valid() {
+        while (packets[0] == null || packets[1] == null) {
+            try {
+                Thread.sleep(1000);
+                System.out.print(">");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("");
+    }
+
+    @Override
     public void play() {
-        int result = Integer.parseInt(packets[0].value1) - Integer.parseInt(packets[1].value1);
+        int user1 = Integer.parseInt(packets[0].value1);
+        int user2 = Integer.parseInt(packets[1].value1);
+        int result = user1 - user2;
 
         if (result == 0) {
-            System.out.println("Draw");
+            System.out.println("[DRAW] " + rspStr[user1] + " : " + rspStr[user2] + "(user1 : user2)");
         } else if (result > 0) {
-            System.out.println("User2 Win");
+            System.out.println("[USER2 WIN] " + rspStr[user1] + " : " + rspStr[user2] + "(user1 : user2)");
         } else {
-            System.out.println("User1 Win");
+            System.out.println("[USER1 WIN] " + rspStr[user1] + " : " + rspStr[user2] + "(user1 : user2)");
+        }
+
+        if (turn < 10) {
+            turn++;
+            packets[0] = null;
+            packets[1] = null;
+        } else {
+            System.out.println("Game Over");
+            System.exit(0);
         }
     }
 
@@ -122,33 +142,12 @@ class RSP extends GameFrameWork {
     public void history() {
 
     }
-
-    @Override
-    public void packet_transfer() {
-        if (turn <= 10) {
-            for (int i = 0; i<outs.length; i++) {
-                if (outs[i] == null) {
-                    try {
-                        outs[i] = new ObjectOutputStream(clients[i].getOutputStream());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                try {
-                    outs[i].writeObject(new AlgoPacket());
-                    outs[i].flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }
 
 public class Server {
-    public static void main(String[] ar){
+    public static void main(String[] args){
         GameFactory gf = new GameFactory();
-        GameFrameWork gfw = gf.getGame(ar[0]);
+        GameFrameWork gfw = gf.getGame(args[0]);
         gfw.start();
     }
 }
