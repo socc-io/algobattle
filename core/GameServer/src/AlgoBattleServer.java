@@ -16,8 +16,11 @@ public abstract class AlgoBattleServer {
     
     void callBackProcess(AlgoBattlePacket[] receivePackets) {
     	if (isNotFirstTime) {
-            gValid(receivePackets);
-            gPlay(receivePackets);
+            if (gValid(receivePackets)) {
+                gPlay(receivePackets);
+            } else {
+            	gIlleagal();
+            }
     	} else {
     		isNotFirstTime = true;
     	}

@@ -12,7 +12,19 @@ class Server_RSP extends AlgoBattleServer {
 
 	@Override
 	public boolean gValid(AlgoBattlePacket[] receivePackets) {
-		return true;
+		boolean result = false;
+
+		try {
+			for (int i=0; i<receivePackets.length; i++) {
+				int value = Integer.parseInt(receivePackets[i].value1);
+				if (value < 0 || value >= rspStr.length) return result;
+			}
+		} catch (NumberFormatException e) {
+			return result;
+		}
+		
+		result = true;
+		return result;
 	}
 
     @Override
@@ -34,5 +46,6 @@ class Server_RSP extends AlgoBattleServer {
     
     @Override
     public void gIlleagal() {	
+    	System.out.println("[ILLEAGAL] Someone sending abnormal packet");
     }
 }

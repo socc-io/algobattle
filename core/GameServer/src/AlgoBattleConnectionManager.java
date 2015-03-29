@@ -64,6 +64,7 @@ public class AlgoBattleConnectionManager {
 				}
 			}
 		});
+        packetReaderThread.setDaemon(true);
         packetReaderThread.start();
 	}
 	

@@ -56,6 +56,7 @@ public abstract class AlgoBattleClient {
 				}
 			}
 		});
+		th.setDaemon(true);
 		th.start();
 	}
 
