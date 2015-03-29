@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class Client {
+public class AlgoBattleClient {
 	String ip = "localhost";
 	int port = 5000;
 	private Socket socket = null;
@@ -15,7 +15,7 @@ public class Client {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Client c = new Client();
+		AlgoBattleClient c = new AlgoBattleClient();
 		c.start();
 		c.listen();
 	}
@@ -42,7 +42,7 @@ public class Client {
 				try {
 					while (true) {
 						System.out.println("connected wating...");
-						AlgoPacket ap = (AlgoPacket) in.readObject();
+						AlgoBattlePacket ap = (AlgoBattlePacket) in.readObject();
 						System.out.println(ap.getvalue1());
 						send();
 					}
@@ -61,7 +61,7 @@ public class Client {
 		// 사용자한테 입력을 받는다
 		console = new BufferedReader(new InputStreamReader(System.in));
 		String hand = console.readLine();
-		out.writeObject(new AlgoPacket(hand));
+		out.writeObject(new AlgoBattlePacket(hand));
 		out.flush();
 
 	}

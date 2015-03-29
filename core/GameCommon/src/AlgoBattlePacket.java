@@ -2,7 +2,7 @@ import java.io.Serializable;
 
 // 0 1 2 묵 찌 빠
 
-public class AlgoPacket implements Serializable{
+public class AlgoBattlePacket implements Serializable{
     int[][] map = new int[500][500];
     int col = 0;
     int row = 0;
@@ -11,11 +11,11 @@ public class AlgoPacket implements Serializable{
     String value3 = "";
     String value4 = "";
 
-    AlgoPacket() {
+    AlgoBattlePacket() {
 
     }
 
-    AlgoPacket(String value1){
+    AlgoBattlePacket(String value1){
         this.value1 = value1;
     }
 
