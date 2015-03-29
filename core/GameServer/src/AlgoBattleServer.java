@@ -1,49 +1,40 @@
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 public abstract class AlgoBattleServer {
-    public Socket[] clients = new Socket[2];
-    public ObjectOutputStream[] outs = new ObjectOutputStream[2];
-    public ObjectInputStream[] ins = new ObjectInputStream[2];
+	AlgoBattleConnectionManager abcm;
+	boolean isNotFirstTime = false;
+	
+    public abstract void gInit();
+    public abstract boolean gValid(AlgoBattlePacket[] packets);
+    public abstract void gIlleagal();
+    public abstract void gPlay(AlgoBattlePacket[] packets);
 
-    public void start() {
-        server_start();
-        init();
-
-        while (true) {
-            packet_transfer();
-            valid();
-            play();
-            //history();
-        }
+    public void startGame() {
+    	gInit();
+    	abcm = new AlgoBattleConnectionManager(this);
+    	abcm.start();
     }
-
-    public void server_start() {
-        int userCount = 0;
-        try {
-            ServerSocket server = new ServerSocket(5000);
-            System.out.println("Server is Started...");
-
-            while (userCount < 2) {
-                clients[userCount] = server.accept();
-                outs[userCount] = new ObjectOutputStream(clients[userCount].getOutputStream());
-                ins[userCount] = new ObjectInputStream(clients[userCount].getInputStream());
-
-                System.out.println("user" + userCount++ + " is Connect [IO Stream maked]");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    
+    public void callBackProcess(AlgoBattlePacket[] packets) {
+    	if (isNotFirstTime) {
+            gValid(packets);
+            gPlay(packets);
+    	} else {
+    		isNotFirstTime = true;
+    	}
+    	abcm.sendClient();
     }
-
-    public abstract void init();
-    public abstract void valid();
-    public abstract void play();
-    public abstract void history();
-    public abstract void packet_transfer();
+    
+    public void stopGame() {
+    	history();
+    	abcm.stop();
+    	System.exit(0);
+    }
+    
+    public void history() {
+    	
+    }
+    
     public static void main(String[] args){
     	String gametitle = args[0];
     	AlgoBattleServer gfw = null;
@@ -53,7 +44,7 @@ public abstract class AlgoBattleServer {
 			e.printStackTrace();
 		}
 		if(gfw != null){
-			gfw.start();
+			gfw.startGame();
 		}
     }
 }
