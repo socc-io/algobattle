@@ -1,4 +1,3 @@
-import java.io.IOException;
 
 public abstract class AlgoBattleServer {
 	private AlgoBattleConnectionManager abcm;
@@ -26,6 +25,7 @@ public abstract class AlgoBattleServer {
     }
     
     public void stopGame() {
+    	System.out.println("[Game Over]");
     	history();
     	abcm.stop();
     	System.exit(0);

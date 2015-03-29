@@ -12,13 +12,14 @@ public class AlgoBattleConnectionManager {
     private ObjectInputStream[] ins = new ObjectInputStream[2];
     private AlgoBattlePacket[] receivePackets = new AlgoBattlePacket[2];
     private boolean isNotRunning = false;
+	private ServerSocket server;
 	
 	AlgoBattleConnectionManager(AlgoBattleServer abs) {
 		this.abs = abs;
 	}
 	
 	void sendToClient() {
-    	System.out.print("SendPacket To Clients...");
+    	System.out.println("[SEND] Packet To Clients...");
         for (int i=0; i<outs.length; i++) {
             try {
                 outs[i].writeObject(new AlgoBattlePacket());
@@ -32,15 +33,15 @@ public class AlgoBattleConnectionManager {
 	void start() {
 		int clientCount = 0;
         try {
-            ServerSocket server = new ServerSocket(5000);
-            System.out.println("ConnectionManager is Started...");
+            server = new ServerSocket(5000);
+            System.out.println("[START] ConnectionManager...");
 
             while (clientCount < CLIENT_MAX) {
                 clients[clientCount] = server.accept();
                 outs[clientCount] = new ObjectOutputStream(clients[clientCount].getOutputStream());
                 ins[clientCount] = new ObjectInputStream(clients[clientCount].getInputStream());
 
-                System.out.println("user" + clientCount++ + " is Connected [IO Stream maked]");
+                System.out.println("[CONNECTED] user" + clientCount++);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,7 +56,7 @@ public class AlgoBattleConnectionManager {
 					for (packetCount=0; packetCount<CLIENT_MAX; packetCount++) {
 						try {
 							receivePackets[packetCount] = (AlgoBattlePacket)ins[packetCount].readObject();
-							System.out.println("Client" + packetCount+1 + " is Received");
+							System.out.println("[RECEIVE] Packet from Client" + (packetCount+1));
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

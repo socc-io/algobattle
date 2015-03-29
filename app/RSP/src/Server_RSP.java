@@ -1,5 +1,4 @@
 
-
 // java Server RSP
 class Server_RSP extends AlgoBattleServer {
 	private static final int MAX_TURN = 10;

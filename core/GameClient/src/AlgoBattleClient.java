@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -14,12 +12,11 @@ public abstract class AlgoBattleClient {
 
 	// Client_RSP Method Define
 	public abstract void gInit();
-
 	public abstract void gServerCalled(AlgoBattlePacket receivePacket);
 
 	private void start() {
 		try {
-			System.out.println("Connecting to Server...");
+			System.out.println("[CONNECT] Server : " + ip + "(" + port + ")");
 			socket = new Socket(ip, port);
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
@@ -27,8 +24,19 @@ public abstract class AlgoBattleClient {
 			e.printStackTrace();
 		}
 	}
+	
+	private void stop() {
+		System.out.println("[Game Over]");
+		try {
+			if (in != null) in.close();
+			if (out != null) out.close();
+			if (socket != null) socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.exit(0);
+	}
 
-	// �꽌踰꾩뿉�꽌 �슂泥��씠 �삤�뒗嫄� �뱽�뒗�떎.
 	private void listen() {
 		gInit();
 
@@ -37,16 +45,15 @@ public abstract class AlgoBattleClient {
 			public void run() {
 				try {
 					while (true) {
-						System.out
-								.println("Wating packet from AlgoBattleServer...");
-						AlgoBattlePacket receivePacket = (AlgoBattlePacket) in
-								.readObject();
+						System.out.println("[WAIT] Packet from AlgoBattleServer...");
+						AlgoBattlePacket receivePacket = (AlgoBattlePacket) in.readObject();
 						gServerCalled(receivePacket);
 					}
 				} catch (ClassNotFoundException | IOException e) {
-					e.printStackTrace();
+//					e.printStackTrace();
+				} finally {
+					stop();
 				}
-
 			}
 		});
 		th.start();

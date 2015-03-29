@@ -2,8 +2,13 @@ import java.io.Serializable;
 
 // 0 1 2 묵 찌 빠
 
-public class AlgoBattlePacket implements Serializable{
-    int[][] map = new int[500][500];
+public class AlgoBattlePacket implements Serializable {
+    /**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
+	int[][] map = new int[500][500];
     int col = 0;
     int row = 0;
     String value1 = "";
