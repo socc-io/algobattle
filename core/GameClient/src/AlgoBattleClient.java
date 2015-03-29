@@ -24,7 +24,7 @@ public abstract class AlgoBattleClient {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void stop() {
 		System.out.println("[Game Over]");
 		try {
@@ -50,7 +50,7 @@ public abstract class AlgoBattleClient {
 						gServerCalled(receivePacket);
 					}
 				} catch (ClassNotFoundException | IOException e) {
-//					e.printStackTrace();
+					// e.printStackTrace();
 				} finally {
 					stop();
 				}
