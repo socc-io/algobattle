@@ -1,4 +1,4 @@
-import java.io.IOException;
+
 
 // java Server RSP
 class Server_RSP extends AlgoBattleServer {
@@ -8,7 +8,7 @@ class Server_RSP extends AlgoBattleServer {
 
 	@Override
 	public void gInit() {
-
+  
 	}
 
 	@Override

@@ -13,9 +13,9 @@ public abstract class AlgoBattleClient {
 	private ObjectOutputStream out = null;
 
 	// Client_RSP Method Define
+	public abstract void gInit();
+
 	public abstract void gServerCalled(AlgoBattlePacket receivePacket);
-	// Players Method Define
-	public abstract int pYourTurn();
 
 	private void start() {
 		try {
@@ -28,15 +28,19 @@ public abstract class AlgoBattleClient {
 		}
 	}
 
-	// 서버에서 요청이 오는걸 듣는다.
+	// �꽌踰꾩뿉�꽌 �슂泥��씠 �삤�뒗嫄� �뱽�뒗�떎.
 	private void listen() {
+		gInit();
+
 		Thread th = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					while (true) {
-						System.out.println("Wating packet from AlgoBattleServer...");
-						AlgoBattlePacket receivePacket = (AlgoBattlePacket) in.readObject();
+						System.out
+								.println("Wating packet from AlgoBattleServer...");
+						AlgoBattlePacket receivePacket = (AlgoBattlePacket) in
+								.readObject();
 						gServerCalled(receivePacket);
 					}
 				} catch (ClassNotFoundException | IOException e) {
@@ -56,18 +60,18 @@ public abstract class AlgoBattleClient {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void main(String[] args){
-		String gametitle = args[0]; 
-		AlgoBattleClient gfw = null;
+
+	public static void main(String[] args) {
+		String gametitle = args[0];
+		AlgoBattleClient abc = null;
 		try {
-			gfw = (AlgoBattleClient) Class.forName(gametitle).newInstance();
-		} catch(Exception e){
+			abc = (AlgoBattleClient) Class.forName(gametitle).newInstance();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(gfw != null){
-			gfw.start();
-			gfw.listen();
+		if (abc != null) {
+			abc.start();
+			abc.listen();
 		}
 	}
 }

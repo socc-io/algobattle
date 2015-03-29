@@ -1,30 +1,25 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
+
+
+abstract class Player_RSP extends Client_RSP {}
 public abstract class Client_RSP extends AlgoBattleClient {
-	private BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+
+	@Override
+	public void gInit() {
+	}
+
 	@Override
 	public void gServerCalled(AlgoBattlePacket receivedPacket) {
-/* REAL
- *		int inputData = pYourTurn();
- *		// TODO: Make AlgoBattlePacket
- *		AlgoBattlePacket sendPacket = new AlgoBattlePacket();
- *		sendToServer(sendPacket);
- */
-
-/* TEST */
-		try {
-			String hand = console.readLine();
-			AlgoBattlePacket sendPacket = new AlgoBattlePacket(hand);
-			sendToServer(sendPacket);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		int inputData = pYourTurn();
+		AlgoBattlePacket sendPacket = new AlgoBattlePacket("" + inputData);
+		sendToServer(sendPacket);
 	}
 
-	//Player GAME API
-	public void go() {
-		
+	// Player GAME API
+	public void walk_front() {
+
 	}
+
+	// Player ABSTRACT METHOD
+	public abstract int pYourTurn();
 }

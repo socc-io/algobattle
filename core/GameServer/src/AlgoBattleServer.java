@@ -37,14 +37,14 @@ public abstract class AlgoBattleServer {
     
     public static void main(String[] args){
     	String gametitle = args[0];
-    	AlgoBattleServer gfw = null;
+    	AlgoBattleServer abs = null;
 		try {
-			gfw = (AlgoBattleServer) Class.forName(gametitle).newInstance();
+			abs = (AlgoBattleServer) Class.forName(gametitle).newInstance();
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-		if(gfw != null){
-			gfw.startGame();
+		if(abs != null){
+			abs.startGame();
 		}
     }
 }
