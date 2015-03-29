@@ -8,18 +8,18 @@ class Server_RSP extends AlgoBattleServer {
 
 	@Override
 	public void gInit() {
-		
+
 	}
 
 	@Override
-	public boolean gValid(AlgoBattlePacket[] packets) {
+	public boolean gValid(AlgoBattlePacket[] receivePackets) {
 		return true;
 	}
 
     @Override
-    public void gPlay(AlgoBattlePacket[] packets) {
-        int user1 = Integer.parseInt(packets[0].value1);
-        int user2 = Integer.parseInt(packets[1].value1);
+    public void gPlay(AlgoBattlePacket[] receivePackets) {
+        int user1 = Integer.parseInt(receivePackets[0].value1);
+        int user2 = Integer.parseInt(receivePackets[1].value1);
         int result = user1 - user2;
 
         if (result == 0) {

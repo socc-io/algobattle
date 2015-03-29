@@ -1,28 +1,28 @@
 import java.io.IOException;
 
 public abstract class AlgoBattleServer {
-	AlgoBattleConnectionManager abcm;
-	boolean isNotFirstTime = false;
+	private AlgoBattleConnectionManager abcm;
+	private boolean isNotFirstTime = false;
 	
     public abstract void gInit();
-    public abstract boolean gValid(AlgoBattlePacket[] packets);
+    public abstract boolean gValid(AlgoBattlePacket[] receivePackets);
     public abstract void gIlleagal();
-    public abstract void gPlay(AlgoBattlePacket[] packets);
+    public abstract void gPlay(AlgoBattlePacket[] receivePackets);
 
-    public void startGame() {
+    private void startGame() {
     	gInit();
     	abcm = new AlgoBattleConnectionManager(this);
     	abcm.start();
     }
     
-    public void callBackProcess(AlgoBattlePacket[] packets) {
+    void callBackProcess(AlgoBattlePacket[] receivePackets) {
     	if (isNotFirstTime) {
-            gValid(packets);
-            gPlay(packets);
+            gValid(receivePackets);
+            gPlay(receivePackets);
     	} else {
     		isNotFirstTime = true;
     	}
-    	abcm.sendClient();
+    	abcm.sendToClient();
     }
     
     public void stopGame() {
@@ -31,7 +31,7 @@ public abstract class AlgoBattleServer {
     	System.exit(0);
     }
     
-    public void history() {
+    private void history() {
     	
     }
     

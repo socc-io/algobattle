@@ -5,19 +5,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class AlgoBattleConnectionManager {
-	public static final int CLIENT_MAX = 2;
-	AlgoBattleServer abs = null;
-    Socket[] clients = new Socket[2];
-    ObjectOutputStream[] outs = new ObjectOutputStream[2];
-    ObjectInputStream[] ins = new ObjectInputStream[2];
-    AlgoBattlePacket[] packets = new AlgoBattlePacket[2];
-    boolean isNotRunning = false;
+	private static final int CLIENT_MAX = 2;
+	private AlgoBattleServer abs = null;
+    private Socket[] clients = new Socket[2];
+    private ObjectOutputStream[] outs = new ObjectOutputStream[2];
+    private ObjectInputStream[] ins = new ObjectInputStream[2];
+    private AlgoBattlePacket[] receivePackets = new AlgoBattlePacket[2];
+    private boolean isNotRunning = false;
 	
 	AlgoBattleConnectionManager(AlgoBattleServer abs) {
 		this.abs = abs;
 	}
 	
-	public void sendClient() {
+	void sendToClient() {
     	System.out.print("SendPacket To Clients...");
         for (int i=0; i<outs.length; i++) {
             try {
@@ -29,7 +29,7 @@ public class AlgoBattleConnectionManager {
         }
     }
 	
-	public void start() {
+	void start() {
 		int clientCount = 0;
         try {
             ServerSocket server = new ServerSocket(5000);
@@ -51,10 +51,10 @@ public class AlgoBattleConnectionManager {
 			public void run() {
 				int packetCount;
 				while (!isNotRunning) {
-					abs.callBackProcess(packets);
+					abs.callBackProcess(receivePackets);
 					for (packetCount=0; packetCount<CLIENT_MAX; packetCount++) {
 						try {
-							packets[packetCount] = (AlgoBattlePacket)ins[packetCount].readObject();
+							receivePackets[packetCount] = (AlgoBattlePacket)ins[packetCount].readObject();
 							System.out.println("Client" + packetCount+1 + " is Received");
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -66,7 +66,7 @@ public class AlgoBattleConnectionManager {
         packetReaderThread.start();
 	}
 	
-	public void stop() {
+	void stop() {
 		isNotRunning = true;
 		for (int i=0; i<CLIENT_MAX; i++) {
 			try {

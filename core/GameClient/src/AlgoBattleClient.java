@@ -5,23 +5,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class AlgoBattleClient {
-	String ip = "localhost";
-	int port = 5000;
+public abstract class AlgoBattleClient {
+	private String ip = "localhost";
+	private int port = 5000;
 	private Socket socket = null;
 	private ObjectInputStream in = null;
 	private ObjectOutputStream out = null;
-	private BufferedReader console = null;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		AlgoBattleClient c = new AlgoBattleClient();
-		c.start();
-		c.listen();
-	}
+	// Client_RSP Method Define
+	public abstract void gServerCalled(AlgoBattlePacket receivePacket);
+	// Players Method Define
+	public abstract int pYourTurn();
 
 	private void start() {
-
 		try {
 			System.out.println("Connecting to Server...");
 			socket = new Socket(ip, port);
@@ -35,35 +31,43 @@ public class AlgoBattleClient {
 	// 서버에서 요청이 오는걸 듣는다.
 	private void listen() {
 		Thread th = new Thread(new Runnable() {
-
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				try {
 					while (true) {
-						System.out.println("connected wating...");
-						AlgoBattlePacket ap = (AlgoBattlePacket) in.readObject();
-						System.out.println(ap.getvalue1());
-						send();
+						System.out.println("Wating packet from AlgoBattleServer...");
+						AlgoBattlePacket receivePacket = (AlgoBattlePacket) in.readObject();
+						gServerCalled(receivePacket);
 					}
 				} catch (ClassNotFoundException | IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 			}
 		});
 		th.start();
-
 	}
 
-	private void send() throws IOException {
-		// 사용자한테 입력을 받는다
-		console = new BufferedReader(new InputStreamReader(System.in));
-		String hand = console.readLine();
-		out.writeObject(new AlgoBattlePacket(hand));
-		out.flush();
-
+	void sendToServer(AlgoBattlePacket sendPacket) {
+		try {
+			out.writeObject(sendPacket);
+			out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-
+	
+	public static void main(String[] args){
+		String gametitle = args[0]; 
+		AlgoBattleClient gfw = null;
+		try {
+			gfw = (AlgoBattleClient) Class.forName(gametitle).newInstance();
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		if(gfw != null){
+			gfw.start();
+			gfw.listen();
+		}
+	}
 }
