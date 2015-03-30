@@ -35,7 +35,9 @@ public abstract class AlgoBattleServer {
 	}
 
 	private void history() {
-
+		//TODO : 지금까지 했던 히스토리를 저장
+		// 그러고 보니 지금 까지 했던 히스토리를 저장하려면, 모든 패킷을 순서대로 모아놓고 있어야함.
+		
 	}
 
 	public static void main(String[] args){
